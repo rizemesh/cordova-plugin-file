@@ -83,6 +83,17 @@ defineEvent('onloadend');      // When the request has completed (either in succ
 defineEvent('onabort');        // When the read has been aborted. For instance, by invoking the abort() method.
 
 function initRead(reader, file) {
+    /**START FIX FOR BACKENDLESS**/
+        /** SEE THIS FOR REFERENCE http://support.backendless.com/topic/upload-file-problem-uncaught-object-put-httplocalhost8000undefined **/
+        //console.log(reader);
+        if (reader.uploadPath) {
+            reader._realReader.uploadPath = reader.uploadPath;
+        }
+        if (reader.asyncHandler) {
+            reader._realReader.asyncHandler = reader.asyncHandler;
+        }
+        //console.log(reader._realReader);
+        /**END FIX FOR BACKENDLESS**/
     // Already loading something
     if (reader.readyState == FileReader.LOADING) {
       throw new FileError(FileError.INVALID_STATE_ERR);
